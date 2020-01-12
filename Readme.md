@@ -29,3 +29,12 @@ composer require arfaram/draftstoolsbundle:^1.0@dev
             new EzPlatform\DraftsToolsBundle\EzSystemsDraftsToolsBundle(),
 
 ```
+
+## Screenshots
+
+<img src="doc/all_drafts_tab.png" />
+
+
+<img src="doc/draft_locations.png" />
+
+
