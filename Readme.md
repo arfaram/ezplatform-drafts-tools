@@ -10,6 +10,7 @@ eZPlatform 2.x +
 
 - Habe access to private drafts in the everyone dashboard block
 - Add additional column in me/all draft tabs to have an information about future draft location(s)
+- Add permission for all drafts tab `dashboard/alldrafts`(ToDo)
 - Preview draft link for external user(ToDo)
 - Rest API endpoint(ToDo)
  
