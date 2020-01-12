@@ -1,0 +1,20 @@
+{
+  "name": "arfaram/ezdraftstoolsbundle",
+  "type": "ezplatform-bundle",
+  "description": "Access to all eZ Platform drafts",
+  "keywords": ["ezplatform"],
+  "homepage": "https://github.com/arfaram/ezdraftstoolsbundle",
+  "license": "GPL-2.0",
+  "authors": [
+    {
+      "name": "Ramzi Arfaoui",
+      "email": "ramzi_arfa@hotmail.de"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "EzPlatform\\DraftsToolsBundle\\": "src/bundle",
+      "EzPlatform\\DraftsTools\\": "src/lib"
+    }
+  }
+}

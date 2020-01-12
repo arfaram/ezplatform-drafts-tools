@@ -1,0 +1,11 @@
+parameters:
+    pagination.all_drafts_limit: 6
+services:
+    #All drafts
+    EzPlatform\DraftsTools\Tab\Dashboard\AllDraftsTab:
+        parent: EzSystems\EzPlatformAdminUi\Tab\AbstractTab
+        public: false
+        arguments:
+            $defaultPaginationLimit: '%pagination.all_drafts_limit%'
+        tags:
+            - { name: ezplatform.tab, group: dashboard-everyone }

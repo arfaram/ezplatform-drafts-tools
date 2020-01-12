@@ -1,0 +1,92 @@
+<?php
+
+namespace EzPlatform\DraftsTools\Core\Repository;
+
+use eZ\Publish\API\Repository\Values\Content\ContentDraftList;
+use eZ\Publish\API\Repository\Values\Content\DraftList\Item\ContentDraftListItem;
+use eZ\Publish\API\Repository\Values\Content\DraftList\Item\UnauthorizedContentDraftListItem;
+use eZ\Publish\Core\Repository\Helper;
+use eZ\Publish\Core\Repository\Permission\PermissionResolver as PermissionResolverInterface;
+use EzPlatform\DraftsTools\API\Repository\DraftsToolsServiceInterface;
+use EzPlatform\DraftsTools\SPI\Persistence\HandlerInterface;
+
+class DraftsToolsService implements DraftsToolsServiceInterface
+{
+    /** @var \EzPlatform\DraftsTools\SPI\Persistence\HandlerInterface */
+    private $persistenceHandler;
+
+    /** @var \eZ\Publish\Core\Repository\Helper\DomainMapper */
+    private $domainMapper;
+
+    /** @var \eZ\Publish\Core\Repository\Permission\PermissionResolver */
+    private $permissionResolver;
+
+    /**
+     * DraftsToolsService constructor.
+     * @param \EzPlatform\DraftsTools\SPI\Persistence\HandlerInterface $persistenceHandler
+     * @param \eZ\Publish\Core\Repository\Permission\PermissionResolver $permissionResolver
+     * @param \eZ\Publish\Core\Repository\Helper\DomainMapper $domainMapper
+     */
+    public function __construct(
+        HandlerInterface $persistenceHandler,
+        PermissionResolverInterface $permissionResolver,
+        Helper\DomainMapper $domainMapper
+    ) {
+        $this->persistenceHandler = $persistenceHandler;
+        $this->domainMapper = $domainMapper;
+        $this->permissionResolver = $permissionResolver;
+    }
+
+    /**
+     * @param int $offset
+     * @param int $limit
+     * @return \eZ\Publish\API\Repository\Values\Content\ContentDraftList
+     * @throws \eZ\Publish\API\Repository\Exceptions\BadStateException
+     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException
+     */
+    public function loadAllDrafts($offset = 0, $limit = 25)
+    {
+        //Same logic as in Content Service, see loadContentDraftList()
+
+        $list = new ContentDraftList();
+        if ($this->permissionResolver->hasAccess('content', 'versionread') === false) {
+            return $list;
+        }
+
+        $list->totalCount = $this->countAllContentDrafts();
+        if ($list->totalCount > 0) {
+            $spiVersionInfoList = $this->persistenceHandler->getDraftsList($offset, $limit);
+            foreach ($spiVersionInfoList as $spiVersionInfo) {
+                $versionInfo = $this->domainMapper->buildVersionInfoDomainObject($spiVersionInfo);
+                if ($this->permissionResolver->canUser('content', 'versionread', $versionInfo)) {
+                    $list->items[] = new ContentDraftListItem($versionInfo);
+                } else {
+                    $list->items[] = new UnauthorizedContentDraftListItem(
+                        'content',
+                        'versionread',
+                        ['contentId' => $versionInfo->contentInfo->id]
+                    );
+                }
+            }
+        }
+
+        return $list;
+    }
+
+    /**
+     * @param $spiDraftList
+     * @return mixed
+     */
+    public function loadDraftsContent($spiDraftList)
+    {
+        return $spiDraftList;
+    }
+
+    /**
+     * @return int
+     */
+    public function countAllContentDrafts(): int
+    {
+        return $this->persistenceHandler->countAllDrafts();
+    }
+}

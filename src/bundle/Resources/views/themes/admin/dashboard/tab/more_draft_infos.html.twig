@@ -1,0 +1,68 @@
+{% macro modal(contentId, parentLocationsOfDraft) %}
+    <button type="button" class="btn btn-icon mx-2 ez-btn" data-toggle="modal" data-target="#view-{{ contentId }}-draft-of-published-content-data-set" href="#" aria-controls="" aria-expanded="">
+        <svg class="ez-icon">
+            <use xlink:href="/bundles/ezplatformadminui/img/ez-icons.svg#system-information"></use>
+        </svg>
+    </button>
+
+    <div class="modal fade ez-notifications-modal show" id="view-{{ contentId }}-draft-of-published-content-data-set" tabindex="-1" role="dialog" aria-modal="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">{{ 'dashboard.table.more.info.draft'|trans|desc('More Information') }}</h5>
+                </div>
+                <div class="modal-body">
+
+                    <div class="ez-scrollable-table-wrapper">
+
+                        <p>{{ 'dashboard.table.draft.contentId'|trans|desc('Content Id') }}: {{ contentId }}</p>
+
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>{{ 'dashboard.table.draft.locations'|trans|desc('Draft Parent Locations') }}</th>
+                                <th>{{ 'dashboard.table.draft.path'|trans|desc('Path') }}</th>
+                                <th>{{ 'dashboard.table.draft.locationId'|trans|desc('LocationId') }}</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for location in parentLocationsOfDraft%}
+                                {% if location %}
+                                    <tr>
+                                        <td><a href="{{ path( location ) }}">{{ ez_content_name(location.contentInfo) }}</a></td>
+                                        <td>
+                                            {% set path = path( location )|split('/', 3) %}
+                                            {{ '/'~path.2 }}</td>
+                                        <td>{{ location.id }}</td>
+                                    </tr>
+
+                                {% endif %}
+                            {% endfor %}
+
+                            </tbody>
+                        </table>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endmacro %}
+
+{% if row.versionInfo.versionNo == 1 %}
+    {# new draft version =1 #}
+    {% set parentLocationsOfDraft = newDraftParentocation(row.versionInfo.contentInfo.id, row.versionInfo.versionNo) %}
+
+    {{ _self.modal(row.versionInfo.contentInfo.id, parentLocationsOfDraft) }}
+
+{% else %}
+    {# draft from existing content#}
+    {% set parentLocationsOfDraft = parentLocationsOfExistingContent(row.versionInfo.contentInfo.id ) %}
+
+    {{ _self.modal(row.versionInfo.contentInfo.id, parentLocationsOfDraft) }}
+
+{% endif %}
+
+
