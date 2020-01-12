@@ -16,7 +16,7 @@ eZPlatform 2.x +
 ## Installation
 
 ```
-composer require arfaram/draftstoolsbundle:^1.0@dev
+composer require arfaram/draftstoolsbundle:dev-master
 ```
 
 - Activate the Bundle in AppKernel.php
