@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * @copyright Copyright (C) ramzi arfaoui ramzi_arfa@hotmail.de . All rights reserved.
+ * @license For full copyright and license information view LICENSE file distributed with this source code.
+ */
 declare(strict_types=1);
 
 namespace EzPlatform\DraftsTools\Core\Repository;
@@ -25,6 +29,7 @@ class DraftsToolsService implements DraftsToolsServiceInterface
 
     /**
      * DraftsToolsService constructor.
+     *
      * @param \EzPlatform\DraftsTools\SPI\Persistence\HandlerInterface $persistenceHandler
      * @param \eZ\Publish\API\Repository\PermissionService $permissionService
      * @param Mapper\ContentDomainMapper $contentDomainMapper
@@ -42,7 +47,9 @@ class DraftsToolsService implements DraftsToolsServiceInterface
     /**
      * @param int $offset
      * @param int $limit
+     *
      * @return \eZ\Publish\API\Repository\Values\Content\ContentDraftList
+     *
      * @throws \eZ\Publish\API\Repository\Exceptions\BadStateException
      * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException
      */
@@ -77,6 +84,7 @@ class DraftsToolsService implements DraftsToolsServiceInterface
 
     /**
      * @param $spiDraftList
+     *
      * @return mixed
      */
     public function loadDraftsContent($spiDraftList)

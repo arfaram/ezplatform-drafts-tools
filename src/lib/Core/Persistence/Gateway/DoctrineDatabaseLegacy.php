@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * @copyright Copyright (C) ramzi arfaoui ramzi_arfa@hotmail.de . All rights reserved.
+ * @license For full copyright and license information view LICENSE file distributed with this source code.
+ */
 namespace EzPlatform\DraftsTools\Core\Persistence\Gateway;
 
 use eZ\Publish\Core\Persistence\Database\DatabaseHandler;
@@ -35,6 +39,7 @@ class DoctrineDatabaseLegacy extends DraftsGateway
      * @param $page
      * @param $limit
      * @param int $status
+     *
      * @return \string[][]
      */
     public function getDraftsList($offset, $limit, $status = VersionInfo::STATUS_DRAFT)

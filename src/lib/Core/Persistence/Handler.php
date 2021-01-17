@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * @copyright Copyright (C) ramzi arfaoui ramzi_arfa@hotmail.de . All rights reserved.
+ * @license For full copyright and license information view LICENSE file distributed with this source code.
+ */
 declare(strict_types=1);
 
 namespace EzPlatform\DraftsTools\Core\Persistence;
@@ -21,6 +25,7 @@ class Handler implements HandlerInterface
 
     /**
      * Handler constructor.
+     *
      * @param \EzPlatform\DraftsTools\Core\Persistence\DraftsGateway $draftsGateway
      * @param \eZ\Publish\Core\Persistence\Legacy\Content\Gateway $contentGateway
      * @param \eZ\Publish\Core\Persistence\Legacy\Content\Mapper $mapper
@@ -38,7 +43,9 @@ class Handler implements HandlerInterface
     /**
      * @param $offset
      * @param $limit
+     *
      * @return \eZ\Publish\SPI\Persistence\Content\VersionInfo[]
+     *
      * @throws \eZ\Publish\Core\Base\Exceptions\NotFoundException
      */
     public function getDraftsList($offset, $limit)

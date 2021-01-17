@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * @copyright Copyright (C) ramzi arfaoui ramzi_arfa@hotmail.de . All rights reserved.
+ * @license For full copyright and license information view LICENSE file distributed with this source code.
+ */
 namespace EzPlatform\DraftsToolsBundle\Twig;
 
 use eZ\Publish\API\Repository\ContentService;
@@ -18,6 +22,7 @@ class DraftParentLocationExtension extends AbstractExtension
 
     /**
      * DraftParentLocationExtension constructor.
+     *
      * @param \eZ\Publish\API\Repository\LocationService $locationService
      * @param \eZ\Publish\API\Repository\ContentService $contentService
      */
@@ -60,7 +65,9 @@ class DraftParentLocationExtension extends AbstractExtension
     /**
      * @param $draftContentId
      * @param $draftVersionNumber
+     *
      * @return array|\eZ\Publish\API\Repository\Values\Content\Location[]
+     *
      * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException
      * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException
      * @throws \eZ\Publish\Core\Base\Exceptions\BadStateException
@@ -83,8 +90,11 @@ class DraftParentLocationExtension extends AbstractExtension
 
     /**
      * @todo nice to have "loadParentLocationsForDraftContent" also for existing content
+     *
      * @param $draftContentId
+     *
      * @return array
+     *
      * @throws \eZ\Publish\API\Repository\Exceptions\BadStateException
      * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException
      * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException
@@ -97,12 +107,12 @@ class DraftParentLocationExtension extends AbstractExtension
 
         $parentLocations = array_map(
             function ($location) {
-            if ($location->parentLocationId !== 1) {
-                return $this->locationService->loadLocation($location->parentLocationId);
-            }
+                if ($location->parentLocationId !== 1) {
+                    return $this->locationService->loadLocation($location->parentLocationId);
+                }
 
-            return [];
-        },
+                return [];
+            },
             $locations
         );
 

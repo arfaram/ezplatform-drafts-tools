@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * @copyright Copyright (C) ramzi arfaoui ramzi_arfa@hotmail.de . All rights reserved.
+ * @license For full copyright and license information view LICENSE file distributed with this source code.
+ */
 declare(strict_types=1);
 
 // We use EzSystems\EzPlatformAdminUi\UI\Value\ValueFactory Instead s. AllDraftsTab
@@ -25,6 +29,7 @@ class DraftUserInformationService
 
     /**
      * AllDraftsValueFactory constructor.
+     *
      * @param \eZ\Publish\API\Repository\UserService $userService
      * @param \eZ\Publish\API\Repository\Repository $repository
      * @param \Psr\Log\LoggerInterface $logger
@@ -41,7 +46,9 @@ class DraftUserInformationService
 
     /**
      * @param $contentDraft
+     *
      * @return \EzPlatform\DraftsTools\UI\Value\Content\DraftUserInfo
+     *
      * @throws \Exception
      */
     public function getDraftUserInformation($contentDraft): DraftUserInfo

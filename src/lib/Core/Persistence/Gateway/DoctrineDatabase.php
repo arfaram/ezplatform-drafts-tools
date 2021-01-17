@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * @copyright Copyright (C) ramzi arfaoui ramzi_arfa@hotmail.de . All rights reserved.
+ * @license For full copyright and license information view LICENSE file distributed with this source code.
+ */
 declare(strict_types=1);
 
 namespace EzPlatform\DraftsTools\Core\Persistence\Gateway;
@@ -18,6 +22,7 @@ class DoctrineDatabase extends DraftsGateway
 
     /**
      * DoctrineDatabase constructor.
+     *
      * @param \Doctrine\DBAL\Connection $connection
      */
     public function __construct(
@@ -30,6 +35,7 @@ class DoctrineDatabase extends DraftsGateway
      * @param $offset
      * @param $limit
      * @param int $status
+     *
      * @return mixed[]
      */
     public function getDraftsList($offset, $limit, $status = VersionInfo::STATUS_DRAFT)
@@ -111,7 +117,9 @@ class DoctrineDatabase extends DraftsGateway
 
     /**
      * @param int $status
+     *
      * @return int
+     *
      * @throws \Doctrine\DBAL\DBALException
      */
     public function countAllDrafts(int $status = VersionInfo::STATUS_DRAFT): int

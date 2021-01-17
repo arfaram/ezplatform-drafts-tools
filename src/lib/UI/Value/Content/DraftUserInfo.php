@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * @copyright Copyright (C) ramzi arfaoui ramzi_arfa@hotmail.de . All rights reserved.
+ * @license For full copyright and license information view LICENSE file distributed with this source code.
+ */
 declare(strict_types=1);
 
 namespace EzPlatform\DraftsTools\UI\Value\Content;
@@ -16,6 +20,7 @@ class DraftUserInfo extends ContentDraft
 
     /**
      * DraftUserInfo constructor.
+     *
      * @param \EzSystems\EzPlatformAdminUi\UI\Value\Content\ContentDraft $contentDraft
      * @param array $properties
      */

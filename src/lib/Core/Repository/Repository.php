@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * @copyright Copyright (C) ramzi arfaoui ramzi_arfa@hotmail.de . All rights reserved.
+ * @license For full copyright and license information view LICENSE file distributed with this source code.
+ */
 declare(strict_types=1);
 
 namespace EzPlatform\DraftsTools\Core\Repository;
@@ -34,13 +38,13 @@ class Repository extends RepositoryCoreInterface implements DraftsRepository
 
     /**
      * Instance of DraftTools service.
+     *
      * @var \EzPlatform\DraftsTools\API\Repository\DraftsToolsServiceInterface
      */
     private $drfatToolsService;
 
     /** @var \EzPlatform\DraftsTools\SPI\Persistence\HandlerInterface */
     private $draftsPersistenceHandler;
-
 
     public function __construct(
         PersistenceHandler $persistenceHandler,

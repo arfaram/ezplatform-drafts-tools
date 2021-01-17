@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * @copyright Copyright (C) ramzi arfaoui ramzi_arfa@hotmail.de . All rights reserved.
+ * @license For full copyright and license information view LICENSE file distributed with this source code.
+ */
 declare(strict_types=1);
 
 namespace EzPlatform\DraftsTools\Core\Persistence\Gateway;
@@ -16,6 +20,7 @@ class ExceptionConversion extends DraftsGateway
 
     /**
      * ExceptionConversion constructor.
+     *
      * @param \EzPlatform\DraftsTools\Core\Persistence\DraftsGateway $innerGateway
      */
     public function __construct(
@@ -28,6 +33,7 @@ class ExceptionConversion extends DraftsGateway
      * @param $offset
      * @param $limit
      * @param int $status
+     *
      * @return mixed
      */
     public function getDraftsList($offset, $limit, $status = VersionInfo::STATUS_DRAFT)

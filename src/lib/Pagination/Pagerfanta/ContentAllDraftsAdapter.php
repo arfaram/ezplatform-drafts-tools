@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * @copyright Copyright (C) ramzi arfaoui ramzi_arfa@hotmail.de . All rights reserved.
+ * @license For full copyright and license information view LICENSE file distributed with this source code.
+ */
 declare(strict_types=1);
 
 namespace EzPlatform\DraftsTools\Pagination\Pagerfanta;
@@ -18,6 +22,7 @@ final class ContentAllDraftsAdapter implements AdapterInterface
 
     /**
      * ContentAllDraftsAdapter constructor.
+     *
      * @param \EzPlatform\DraftsTools\API\Repository\DraftsToolsServiceInterface $draftsToolsService
      * @param \EzPlatform\DraftsTools\UI\Dataset\DatasetFactory $datasetFactory
      */
@@ -31,6 +36,7 @@ final class ContentAllDraftsAdapter implements AdapterInterface
 
     /**
      * @return int
+     *
      * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException
      */
     public function getNbResults()

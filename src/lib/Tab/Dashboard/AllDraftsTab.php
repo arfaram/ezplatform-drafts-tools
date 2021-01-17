@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * @copyright Copyright (C) ramzi arfaoui ramzi_arfa@hotmail.de . All rights reserved.
+ * @license For full copyright and license information view LICENSE file distributed with this source code.
+ */
 declare(strict_types=1);
 
 namespace EzPlatform\DraftsTools\Tab\Dashboard;
@@ -30,7 +34,7 @@ class AllDraftsTab extends AbstractTab implements OrderedTabInterface, Condition
     /** @var \EzPlatform\DraftsTools\UI\Dataset\DatasetFactory */
     private $datasetFactory;
 
-    /** @var int set from parameters.yaml*/
+    /** @var int set from parameters.yaml */
     private $paginationLimit;
 
     private $defaultPaginationLimit = 25;
@@ -40,6 +44,7 @@ class AllDraftsTab extends AbstractTab implements OrderedTabInterface, Condition
 
     /**
      * AllDraftsTab constructor.
+     *
      * @param \Twig\Environment $twig
      * @param \Symfony\Contracts\Translation\TranslatorInterface $translator
      * @param \EzSystems\EzPlatformAdminUi\Tab\Dashboard\PagerContentToDataMapper $pagerContentToDataMapper
@@ -110,7 +115,9 @@ class AllDraftsTab extends AbstractTab implements OrderedTabInterface, Condition
 
     /**
      * @param array $parameters
+     *
      * @return string
+     *
      * @throws \Twig\Error\LoaderError
      * @throws \Twig\Error\RuntimeError
      * @throws \Twig\Error\SyntaxError
