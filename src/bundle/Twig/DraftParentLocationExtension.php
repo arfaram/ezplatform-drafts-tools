@@ -3,13 +3,12 @@
 namespace EzPlatform\DraftsToolsBundle\Twig;
 
 use eZ\Publish\API\Repository\ContentService;
-use eZ\Publish\API\Repository\Values\Content\Content;
-use eZ\Publish\Core\Repository\LocationService;
-use eZ\Publish\Core\Repository\Permission\PermissionResolver;
-use Twig_Extension;
-use Twig_SimpleFunction;
+use eZ\Publish\API\Repository\LocationService;
+use Twig\Extension\AbstractExtension;
+use Twig\Environment;
+use Twig\TwigFunction;
 
-class DraftParentLocationExtension extends Twig_Extension
+class DraftParentLocationExtension extends AbstractExtension
 {
     /** @var \eZ\Publish\Core\Repository\LocationService */
     private $locationService;
@@ -17,36 +16,31 @@ class DraftParentLocationExtension extends Twig_Extension
     /** @var \eZ\Publish\API\Repository\ContentService */
     private $contentService;
 
-    /** @var \eZ\Publish\Core\Repository\Permission\PermissionResolver */
-    private $permissionResolver;
-
     /**
      * DraftParentLocationExtension constructor.
-     * @param \eZ\Publish\Core\Repository\LocationService $locationService
+     * @param \eZ\Publish\API\Repository\LocationService $locationService
      * @param \eZ\Publish\API\Repository\ContentService $contentService
      */
     public function __construct(
         LocationService $locationService,
-        ContentService $contentService,
-        PermissionResolver $permissionResolver
+        ContentService $contentService
     ) {
         $this->locationService = $locationService;
         $this->contentService = $contentService;
-        $this->permissionResolver = $permissionResolver;
     }
 
     /**
      * @return array|\Twig\TwigFunction[]
      */
-    public function getFunctions()
+    public function getFunctions(): array
     {
         return
         [
-            new Twig_SimpleFunction(
+            new TwigFunction(
                 'newDraftParentocation',
                 [$this, 'getNewDraftParentocations']
             ),
-            new Twig_SimpleFunction(
+            new TwigFunction(
                 'parentLocationsOfExistingContent',
                 [$this, 'getParentLocationsOfExistingContent']
             ),
@@ -58,7 +52,7 @@ class DraftParentLocationExtension extends Twig_Extension
      *
      * @return string The extension name
      */
-    public function getName()
+    public function getName(): string
     {
         return 'app.draft';
     }
@@ -80,7 +74,8 @@ class DraftParentLocationExtension extends Twig_Extension
         $draftParentLoctions = array_map(
             function ($location) {
                 return $this->locationService->loadLocation($location->id);
-            }, $draftParentLoctions
+            },
+            $draftParentLoctions
         );
 
         return $draftParentLoctions;
@@ -96,24 +91,37 @@ class DraftParentLocationExtension extends Twig_Extension
      */
     public function getParentLocationsOfExistingContent($draftContentId)
     {
-        try {
-            //Not allowed to read other contentTypes
-            $contentInfo = $this->contentService->loadContentInfo($draftContentId);
-        } catch (\Exception $exception) {
-            return;
-        }
+        $contentInfo = $this->contentService->loadContentInfo($draftContentId);
 
         $locations = $this->locationService->loadLocations($contentInfo);
 
-        $parentLocations = array_map(function ($location) {
-            if ($location->parentLocationId == 1) {
-                return;
+        $parentLocations = array_map(
+            function ($location) {
+            if ($location->parentLocationId !== 1) {
+                return $this->locationService->loadLocation($location->parentLocationId);
             }
 
-            return $this->locationService->loadLocation($location->parentLocationId);
-        }, $locations
+            return [];
+        },
+            $locations
         );
 
         return $parentLocations;
+    }
+
+    /**
+     * @param Environment $environment
+     */
+    public function initRuntime(Environment $environment)
+    {
+        // TODO: Implement initRuntime() method.
+    }
+
+    /**
+     * @return array|void
+     */
+    public function getGlobals(): array
+    {
+        // TODO: Implement getGlobals() method.
     }
 }

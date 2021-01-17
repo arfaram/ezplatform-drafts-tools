@@ -1,0 +1,6 @@
+services:
+    EzPlatform\DraftsTools\API\Repository\DraftsToolsServiceInterface:
+        alias: 'EzPlatform\DraftsTools\Core\Repository\DraftsToolsService'
+
+    EzPlatform\DraftsTools\SPI\Persistence\HandlerInterface:
+        alias: 'EzPlatform\DraftsTools\Core\Persistence\Handler'

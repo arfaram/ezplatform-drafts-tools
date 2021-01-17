@@ -18,7 +18,6 @@
         </thead>
         <tbody>
         {% for row in data %}
-            {% set content_draft_edit_url = content_is_user|default(false) ? 'ez_user_update' : 'ez_content_draft_edit' %}
             {% if row.isAccessible %}
                 <tr>
                     <td class="ez-table__cell ez-table__cell--has-icon">
@@ -30,7 +29,7 @@
                     <td class="ez-table__cell ez-table__cell--after-icon">{% if row.owner.name is defined %}{{ row.owner.name }}{% else %} {{ 'dashboard.table.user_not_found'|trans|desc('Not Found') }}{% endif %}</td>
                     <td class="ez-table__cell ez-table__cell--after-icon">{% if row.creator.name is defined %}{{ row.creator.name }}{% else %} {{ 'dashboard.table.user_not_found'|trans|desc('Not Found') }}{% endif %}</td>
                     <td class="ez-table__cell">{{ row.contentType.name }}</td>
-                    <td class="ez-table__cell">{{ admin_ui_config.languages.mappings[row.versionInfo.initialLanguageCode].name }}</td>
+                    <td class="ez-table__cell">{{ ez_admin_ui_config.languages.mappings[row.versionInfo.initialLanguageCode].name }}</td>
                     <td class="ez-table__cell">{{ row.versionInfo.versionNo }}</td>
                     <td class="ez-table__cell">{{ row.versionInfo.modificationDate|ez_short_datetime }}</td>
                     <td class="ez-table__cell">
@@ -39,6 +38,7 @@
 
                     </td>
                     <td class="ez-table__cell ez-table__cell--has-action-btns text-right">
+                        {% set content_draft_edit_url = content_is_user|default(false) ? 'ezplatform.user.update' : 'ezplatform.content.draft.edit' %}
                         <button class="btn btn-icon mx-2 ez-btn--content-draft-edit"
                                 title="{{ 'dashboard.table.draft.edit'|trans|desc('Edit Draft') }}"
                                 data-content-draft-edit-url="{{ path(content_draft_edit_url, {

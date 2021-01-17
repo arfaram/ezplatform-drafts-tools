@@ -23,7 +23,8 @@ class EzPlatformDraftsToolsExtension extends Extension
         $config = $this->processConfiguration($configuration, $configs);
 
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
-        $loader->load('services.yml');
-        $loader->load('dashboard.yml');
+        $loader->load('services.yaml');
+        $loader->load('dashboard.yaml');
+        $loader->load('inner.yaml');
     }
 }

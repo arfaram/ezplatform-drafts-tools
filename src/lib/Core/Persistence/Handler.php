@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace EzPlatform\DraftsTools\Core\Persistence;
 
 use eZ\Publish\Core\Persistence\Legacy\Content\Gateway;

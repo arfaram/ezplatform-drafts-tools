@@ -1,11 +1,17 @@
 parameters:
-    pagination.all_drafts_limit: 6
+    pagination.dashboard_all_drafts_limit: ~
 services:
+
+#See note in this class
+#    EzPlatform\DraftsTools\UI\Dataset\DatasetFactory:
+#        autowire: true
+#        lazy: true
+
     #All drafts
     EzPlatform\DraftsTools\Tab\Dashboard\AllDraftsTab:
         parent: EzSystems\EzPlatformAdminUi\Tab\AbstractTab
         public: false
         arguments:
-            $defaultPaginationLimit: '%pagination.all_drafts_limit%'
+            $paginationLimit: '%pagination.dashboard_all_drafts_limit%'
         tags:
             - { name: ezplatform.tab, group: dashboard-everyone }

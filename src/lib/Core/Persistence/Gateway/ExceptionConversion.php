@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace EzPlatform\DraftsTools\Core\Persistence\Gateway;
 
 use Doctrine\DBAL\DBALException;

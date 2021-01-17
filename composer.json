@@ -1,7 +1,7 @@
 {
   "name": "arfaram/ezdraftstoolsbundle",
   "type": "ezplatform-bundle",
-  "description": "Access to all eZ Platform drafts",
+  "description": "Access to all users drafts",
   "keywords": ["ezplatform"],
   "homepage": "https://github.com/arfaram/ezdraftstoolsbundle",
   "license": "GPL-2.0",
@@ -16,5 +16,21 @@
       "EzPlatform\\DraftsToolsBundle\\": "src/bundle",
       "EzPlatform\\DraftsTools\\": "src/lib"
     }
+  },
+  "require": {
+    "php": "^7.3",
+    "ext-json": "*",
+    "ezsystems/ezplatform-kernel": "^1.0",
+    "ezsystems/ezplatform-admin-ui": "^2.0"
+  },
+  "require-dev": {
+    "ezsystems/ez-support-tools": "^2.0",
+    "ezsystems/ezplatform-code-style": "^0.1.0",
+    "friendsofphp/php-cs-fixer": "^2.16.0"
+  },
+  "scripts": {
+    "fix-cs": [
+      "php-cs-fixer --ansi fix -v --show-progress=estimating"
+    ]
   }
 }

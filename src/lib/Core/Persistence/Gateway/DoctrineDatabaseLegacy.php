@@ -41,7 +41,7 @@ class DoctrineDatabaseLegacy extends DraftsGateway
     {
         $query = $this->queryBuilder->createVersionInfoFindQuery();
         $query->where(
-                $query->expr->eq(
+            $query->expr->eq(
                     $this->dbHandler->quoteColumn('status', 'ezcontentobject_version'),
                     $query->bindValue($status, null, \PDO::PARAM_INT)
                 )

@@ -1,0 +1,60 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: true
+
+    EzPlatform\DraftsTools\Core\Repository\Repository:
+        arguments:
+            - "@ezpublish.api.persistence_handler"
+            - "@ezpublish.spi.search"
+            - '@ezpublish.search.background_indexer'
+            - '@ezpublish.repository.relation_processor'
+            - '@eZ\Publish\Core\FieldType\FieldTypeRegistry'
+            - '@eZ\Publish\Core\Repository\User\PasswordHashService'
+            - '@eZ\Publish\Core\Repository\Strategy\ContentThumbnail\ThumbnailChainStrategy'
+            - '@eZ\Publish\Core\Repository\ProxyFactory\ProxyDomainMapperFactory'
+            - '@eZ\Publish\Core\Repository\Mapper\ContentDomainMapper'
+            - '@eZ\Publish\Core\Repository\Mapper\ContentTypeDomainMapper'
+            - '@eZ\Publish\Core\Repository\Mapper\RoleDomainMapper'
+            - '@eZ\Publish\Core\Repository\Mapper\ContentMapper'
+            - '@eZ\Publish\SPI\Repository\Validator\ContentValidator'
+            - '@eZ\Publish\Core\Repository\Permission\LimitationService'
+            - '@eZ\Publish\API\Repository\LanguageResolver'
+            - '@eZ\Publish\API\Repository\PermissionService'
+            - '@eZ\Publish\SPI\Persistence\Filter\Content\Handler'
+            - '@eZ\Publish\SPI\Persistence\Filter\Location\Handler'
+            - '@eZ\Publish\Core\Repository\User\PasswordValidatorInterface'
+            - '%languages%'
+        lazy: true
+
+    EzPlatform\DraftsTools\Core\Repository\DraftsToolsService:
+        factory: ['@EzPlatform\DraftsTools\Core\Repository\Repository', 'getAllDraftsService']
+        lazy: true
+
+    #@Deprecated. Use below DoctrineDatabase which use Doctrine\DBAL\Query\QueryBuilder
+#    EzPlatform\DraftsTools\Core\Persistence\Gateway\DoctrineDatabaseLegacy:
+#        arguments:
+#            $dbHandler: '@ezpublish.api.storage_engine.legacy.dbhandler'
+
+    EzPlatform\DraftsTools\Core\Persistence\Gateway\DoctrineDatabase: ~
+
+    EzPlatform\DraftsTools\Core\Persistence\Gateway\ExceptionConversion:
+        arguments:
+            $innerGateway: '@EzPlatform\DraftsTools\Core\Persistence\Gateway\DoctrineDatabase'
+
+    EzPlatform\DraftsTools\Core\Persistence\Handler:
+        arguments:
+            $draftsGateway: '@EzPlatform\DraftsTools\Core\Persistence\Gateway\ExceptionConversion'
+            $contentGateway: '@ezpublish.persistence.legacy.content.gateway'
+            $mapper: '@ezpublish.persistence.legacy.content.mapper'
+
+    #Dashboad Me-draft location(s) information
+    EzPlatform\DraftsToolsBundle\Twig\DraftParentLocationExtension:
+        tags:
+            - { name: twig.extension }
+
+    EzPlatform\DraftsTools\UI\Dataset\DatasetFactory:
+        lazy: true
+
+    EzPlatform\DraftsTools\UI\Services\DraftUserInformationService: ~

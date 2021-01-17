@@ -1,3 +1,5 @@
+{% trans_default_domain 'dashboard' %}
+
 {% macro modal(contentId, parentLocationsOfDraft) %}
     <button type="button" class="btn btn-icon mx-2 ez-btn" data-toggle="modal" data-target="#view-{{ contentId }}-draft-of-published-content-data-set" href="#" aria-controls="" aria-expanded="">
         <svg class="ez-icon">
@@ -22,18 +24,25 @@
                             <tr>
                                 <th>{{ 'dashboard.table.draft.locations'|trans|desc('Draft Parent Locations') }}</th>
                                 <th>{{ 'dashboard.table.draft.path'|trans|desc('Path') }}</th>
-                                <th>{{ 'dashboard.table.draft.locationId'|trans|desc('LocationId') }}</th>
+                                <th>{{ 'dashboard.table.draft.locationId'|trans|desc('Location Id') }}</th>
                             </tr>
                             </thead>
                             <tbody>
                             {% for location in parentLocationsOfDraft%}
                                 {% if location %}
                                     <tr>
-                                        <td><a href="{{ path( location ) }}">{{ ez_content_name(location.contentInfo) }}</a></td>
                                         <td>
-                                            {% set path = path( location )|split('/', 3) %}
-                                            {{ '/'~path.2 }}</td>
-                                        <td>{{ location.id }}</td>
+                                            <a href="{{ ez_path( location ) }}">
+                                                {{ ez_content_name(location.contentInfo) }}
+                                            </a>
+                                        </td>
+                                        <td>
+                                            {% set path = ez_path( location )|split('/', 3) %}
+                                            {{ '/'~path.2 }}
+                                        </td>
+                                        <td>
+                                            {{ location.id }}
+                                        </td>
                                     </tr>
 
                                 {% endif %}

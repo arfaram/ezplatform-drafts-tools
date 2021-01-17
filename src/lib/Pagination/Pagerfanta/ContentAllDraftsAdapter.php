@@ -1,9 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace EzPlatform\DraftsTools\Pagination\Pagerfanta;
 
-use EzPlatform\DraftsTools\UI\Dataset\DatasetFactory;
 use EzPlatform\DraftsTools\API\Repository\DraftsToolsServiceInterface;
+use EzPlatform\DraftsTools\UI\Dataset\DatasetFactory;
 use Pagerfanta\Adapter\AdapterInterface;
 
 final class ContentAllDraftsAdapter implements AdapterInterface
@@ -11,7 +13,7 @@ final class ContentAllDraftsAdapter implements AdapterInterface
     /** @var \EzPlatform\DraftsTools\Core\Repository\DraftsToolsService */
     private $draftsToolsService;
 
-    /** @var \EzSystems\EzPlatformAdminUi\UI\Dataset\DatasetFactory */
+    /** @var \EzPlatform\DraftsTools\UI\Dataset\DatasetFactory */
     private $datasetFactory;
 
     /**

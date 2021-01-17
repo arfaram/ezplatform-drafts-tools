@@ -1,18 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace EzPlatform\DraftsTools\UI\Dataset;
 
 use eZ\Publish\API\Repository\ContentTypeService;
 use eZ\Publish\API\Repository\Values\Content\DraftList\ContentDraftListItemInterface;
 use EzPlatform\DraftsTools\API\Repository\DraftsToolsServiceInterface;
+use EzPlatform\DraftsTools\UI\Services\DraftUserInformationService;
 use EzPlatform\DraftsTools\UI\Value\AllDraftsValueFactory;
 use EzSystems\EzPlatformAdminUi\UI\Value\ValueFactory;
 
 class ContentAllDraftListDataset
 {
-    /** @var \EzSystems\EzPlatformAdminUi\UI\Value\Content\ContentDraftInterface[] */
-    private $data = [];
-
     /** @var \EzPlatform\DraftsTools\API\Repository\DraftsToolsServiceInterface */
     private $draftsToolsService;
 
@@ -22,26 +22,29 @@ class ContentAllDraftListDataset
     /** @var \EzSystems\EzPlatformAdminUi\UI\Value\ValueFactory */
     private $valueFactory;
 
-    /** @var \EzPlatform\DraftsTools\UI\Value\AllDraftsValueFactory */
-    private $allDraftsValueFactory;
+    /** @var \EzPlatform\DraftsTools\UI\Services\DraftUserInformationService */
+    private DraftUserInformationService $draftUserInformationService;
+
+    /** @var \EzSystems\EzPlatformAdminUi\UI\Value\Content\ContentDraftInterface[] */
+    private $data = [];
 
     /**
      * ContentAllDraftListDataset constructor.
      * @param \EzPlatform\DraftsTools\API\Repository\DraftsToolsServiceInterface $draftsToolsService
      * @param \eZ\Publish\API\Repository\ContentTypeService $contentTypeService
      * @param \EzSystems\EzPlatformAdminUi\UI\Value\ValueFactory $valueFactory
-     * @param \EzPlatform\DraftsTools\UI\Value\AllDraftsValueFactory $allDraftsValueFactory
+     * @param \EzPlatform\DraftsTools\UI\Services\DraftUserInformationService $draftUserInformationService
      */
     public function __construct(
         DraftsToolsServiceInterface $draftsToolsService,
         ContentTypeService $contentTypeService,
         ValueFactory $valueFactory,
-        AllDraftsValueFactory $allDraftsValueFactory
+        DraftUserInformationService $draftUserInformationService
     ) {
         $this->draftsToolsService = $draftsToolsService;
         $this->contentTypeService = $contentTypeService;
         $this->valueFactory = $valueFactory;
-        $this->allDraftsValueFactory = $allDraftsValueFactory;
+        $this->draftUserInformationService = $draftUserInformationService;
     }
 
     /**
@@ -51,7 +54,7 @@ class ContentAllDraftListDataset
      */
     public function load(int $offset = 0, int $limit = 0): self
     {
-        // Same as in EzSystems\EzPlatformAdminUi\UI\Dataset\ContentDraftListDataset, load(), to avoid access drafts for current user. We add later the owner and version creator as additional information
+        // Same like in EzSystems\EzPlatformAdminUi\UI\Dataset\ContentDraftListDataset, load(), to avoid access drafts for current user. We add later the owner and version creator as additional information
         $contentDraftListItems = $this->draftsToolsService->loadAllDrafts($offset, $limit)->items;
 
         $contentTypes = $contentTypeIds = [];
@@ -72,7 +75,7 @@ class ContentAllDraftListDataset
                     $contentType = $contentTypes[$versionInfo->getContentInfo()->contentTypeId];
                     $contentDraft = $this->valueFactory->createContentDraft($contentDraftListItem, $contentType);
                     //additional owner and creator information
-                    return $this->allDraftsValueFactory->getDraftUserInformation($contentDraft);
+                    return $this->draftUserInformationService->getDraftUserInformation($contentDraft);
                 }
 
                 return $this->valueFactory->createUnauthorizedContentDraft($contentDraftListItem);

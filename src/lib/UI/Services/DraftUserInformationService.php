@@ -1,8 +1,10 @@
 <?php
 
-// We gonna use ValueEzSystems\EzPlatformAdminUi\UI\Value\ValueFactory Instead
+declare(strict_types=1);
 
-namespace EzPlatform\DraftsTools\UI\Value;
+// We use EzSystems\EzPlatformAdminUi\UI\Value\ValueFactory Instead s. AllDraftsTab
+
+namespace EzPlatform\DraftsTools\UI\Services;
 
 use eZ\Publish\API\Repository\Exceptions\NotFoundException;
 use eZ\Publish\API\Repository\Repository as RepositoryInterface;
@@ -10,7 +12,7 @@ use eZ\Publish\API\Repository\UserService;
 use EzPlatform\DraftsTools\UI\Value\Content\DraftUserInfo;
 use Psr\Log\LoggerInterface;
 
-class AllDraftsValueFactory
+class DraftUserInformationService
 {
     /** @var \eZ\Publish\API\Repository\UserService */
     private $userService;
@@ -54,7 +56,7 @@ class AllDraftsValueFactory
                     try {
                         $owner = $this->userService->loadUser($ownerId)->getVersionInfo();
                     } catch (NotFoundException $exception) {
-                        //user has been deleted
+                        //user has been removed
                         $this->logger->warning(sprintf(
                             'Unable to fetch owner content for contentId %s, (original exception: %s)',
                             $ownerId,

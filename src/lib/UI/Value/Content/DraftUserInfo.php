@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace EzPlatform\DraftsTools\UI\Value\Content;
 
 use EzSystems\EzPlatformAdminUi\UI\Value\Content\ContentDraft;

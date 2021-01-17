@@ -13,7 +13,7 @@ use EzSystems\EzPlatformAdminUi\Tab\ConditionalTabInterface;
 use EzSystems\EzPlatformAdminUi\Tab\OrderedTabInterface;
 use Pagerfanta\Pagerfanta;
 use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Environment;
 use EzSystems\EzPlatformAdminUi\Tab\Dashboard\PagerContentToDataMapper;
 
@@ -30,8 +30,10 @@ class AllDraftsTab extends AbstractTab implements OrderedTabInterface, Condition
     /** @var \EzPlatform\DraftsTools\UI\Dataset\DatasetFactory */
     private $datasetFactory;
 
-    /** @var int */
-    private $defaultPaginationLimit;
+    /** @var int set from parameters.yaml*/
+    private $paginationLimit;
+
+    private $defaultPaginationLimit = 25;
 
     /** @var \Symfony\Component\HttpFoundation\RequestStack */
     private $requestStack;
@@ -39,13 +41,13 @@ class AllDraftsTab extends AbstractTab implements OrderedTabInterface, Condition
     /**
      * AllDraftsTab constructor.
      * @param \Twig\Environment $twig
-     * @param \Symfony\Component\Translation\TranslatorInterface $translator
+     * @param \Symfony\Contracts\Translation\TranslatorInterface $translator
      * @param \EzSystems\EzPlatformAdminUi\Tab\Dashboard\PagerContentToDataMapper $pagerContentToDataMapper
      * @param \Symfony\Component\HttpFoundation\RequestStack $requestStack
      * @param \eZ\Publish\API\Repository\PermissionResolver $permissionResolver
      * @param \EzPlatform\DraftsTools\UI\Dataset\DatasetFactory $datasetFactory
      * @param \EzPlatform\DraftsTools\API\Repository\DraftsToolsServiceInterface $draftsToolsService
-     * @param int $defaultPaginationLimit
+     * @param int $paginationLimit
      */
     public function __construct(
         Environment $twig,
@@ -55,7 +57,7 @@ class AllDraftsTab extends AbstractTab implements OrderedTabInterface, Condition
         PermissionResolver $permissionResolver,
         DatasetFactory $datasetFactory,
         DraftsToolsServiceInterface $draftsToolsService,
-        int $defaultPaginationLimit
+        ?int $paginationLimit
     ) {
         parent::__construct($twig, $translator);
 
@@ -64,7 +66,7 @@ class AllDraftsTab extends AbstractTab implements OrderedTabInterface, Condition
         $this->draftsToolsService = $draftsToolsService;
         $this->permissionResolver = $permissionResolver;
         $this->datasetFactory = $datasetFactory;
-        $this->defaultPaginationLimit = $defaultPaginationLimit;
+        $this->paginationLimit = $paginationLimit;
     }
 
     /**
@@ -103,7 +105,7 @@ class AllDraftsTab extends AbstractTab implements OrderedTabInterface, Condition
     public function evaluate(array $parameters): bool
     {
         // hide tab if user has absolutely no access to content/versionread
-        return false !== $this->permissionResolver->hasAccess('content', 'versionread');
+        return false !== $this->permissionResolver->hasAccess('content', 'versionread') && $this->permissionResolver->hasAccess('ezplatformdraftstools', 'dashboard_tab_all');
     }
 
     /**
@@ -116,15 +118,15 @@ class AllDraftsTab extends AbstractTab implements OrderedTabInterface, Condition
     public function renderView(array $parameters): string
     {
         $currentPage = $this->requestStack->getCurrentRequest()->query->getInt(
-            self::PAGINATION_PARAM_NAME, 1
+            self::PAGINATION_PARAM_NAME,
+            1
         );
 
         $pagination = new Pagerfanta(
             new ContentAllDraftsAdapter($this->draftsToolsService, $this->datasetFactory)
         );
-        $pagination->setMaxPerPage($this->defaultPaginationLimit);
+        $pagination->setMaxPerPage($this->paginationLimit ?? $this->defaultPaginationLimit);
         $pagination->setCurrentPage(min(max($currentPage, 1), $pagination->getNbPages()));
-        dump($pagination->getCurrentPageResults());
 
         return $this->twig->render('@ezdesign/dashboard/tab/all_draft_list.html.twig', [
             'data' => $pagination->getCurrentPageResults(),
