@@ -1,9 +1,9 @@
 {
-  "name": "arfaram/ezdraftstoolsbundle",
+  "name": "arfaram/ezplatform-drafts-tools",
   "type": "ezplatform-bundle",
   "description": "Access to all users drafts",
   "keywords": ["ezplatform"],
-  "homepage": "https://github.com/arfaram/ezdraftstoolsbundle",
+  "homepage": "https://github.com/arfaram/ezplatform-drafts-tools",
   "license": "GPL-2.0",
   "authors": [
     {
