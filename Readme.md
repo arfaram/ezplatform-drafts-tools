@@ -1,6 +1,6 @@
-[![GitHub tag (latest SemVer)](https://img.shields.io/github/v/tag/arfaram/draftstoolsbundle?style=flat-square&color=blue)](https://github.com/arfaram/draftstoolsbundle/tags)
-[![Downloads](https://img.shields.io/packagist/dt/arfaram/draftstoolsbundle?style=flat-square&color=blue)](https://packagist.org/packages/arfaram/draftstoolsbundle)
-[![License](https://img.shields.io/packagist/l/arfaram/draftstoolsbundle.svg?style=flat-square&color=blue)](https://github.com/arfaram/draftstoolsbundle/blob/master/LICENSE)
+[![GitHub tag (latest SemVer)](https://img.shields.io/github/v/tag/arfaram/ezplatform-drafts-tools?style=flat-square&color=blue)](https://github.com/arfaram/ezplatform-drafts-tools/tags)
+[![Downloads](https://img.shields.io/packagist/dt/arfaram/ezplatform-drafts-tools?style=flat-square&color=blue)](https://packagist.org/packages/arfaram/ezplatform-drafts-tools)
+[![License](https://img.shields.io/packagist/l/arfaram/ezplatform-drafts-tools.svg?style=flat-square&color=blue)](https://github.com/arfaram/ezplatform-drafts-tools/blob/master/LICENSE)
 
 # Drafts Tools Bundle
 
@@ -20,7 +20,7 @@ This bundle allows you to have access to all user drafts by adding a new API lay
 ## Installation
 
 ```
-composer require arfaram/draftstoolsbundle
+composer require arfaram/ezplatform-drafts-tools
 ```
 
 - Activate the Bundle in bundles.php
