@@ -8,6 +8,7 @@ namespace EzPlatform\DraftsToolsBundle\Twig;
 
 use eZ\Publish\API\Repository\ContentService;
 use eZ\Publish\API\Repository\LocationService;
+use Psr\Log\LoggerInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\Environment;
 use Twig\TwigFunction;
@@ -20,6 +21,9 @@ class DraftParentLocationExtension extends AbstractExtension
     /** @var \eZ\Publish\API\Repository\ContentService */
     private $contentService;
 
+    /** @var \Psr\Log\LoggerInterface */
+    private LoggerInterface $logger;
+
     /**
      * DraftParentLocationExtension constructor.
      *
@@ -28,10 +32,12 @@ class DraftParentLocationExtension extends AbstractExtension
      */
     public function __construct(
         LocationService $locationService,
-        ContentService $contentService
+        ContentService $contentService,
+        LoggerInterface $logger
     ) {
         $this->locationService = $locationService;
         $this->contentService = $contentService;
+        $this->logger = $logger;
     }
 
     /**
@@ -103,7 +109,12 @@ class DraftParentLocationExtension extends AbstractExtension
     {
         $contentInfo = $this->contentService->loadContentInfo($draftContentId);
 
-        $locations = $this->locationService->loadLocations($contentInfo);
+        try{
+            $locations = $this->locationService->loadLocations($contentInfo);
+        }catch (\Exception $e){
+            $this->logger->warning(sprintf('DraftsToolsBundle: Content with Id %s has no locations. Please check if the content has a location in ezcontentobject_tree. API Error: '.$e->getMessage(),$contentInfo->id));
+            return null;
+        }
 
         $parentLocations = array_map(
             function ($location) {

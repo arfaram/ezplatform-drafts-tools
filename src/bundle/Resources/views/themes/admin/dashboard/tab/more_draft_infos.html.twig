@@ -44,9 +44,16 @@
                                             {{ location.id }}
                                         </td>
                                     </tr>
-
                                 {% endif %}
                             {% endfor %}
+
+                            {% if not parentLocationsOfDraft %}
+                                <tr>
+                                    <td>
+                                        {{ 'dashboard.table.draft.error'|trans|desc('Error occurred. Check warning log beginning with DraftsToolsBundle') }}
+                                    </td>
+                                </tr>
+                            {% endif %}
 
                             </tbody>
                         </table>
